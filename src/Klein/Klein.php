@@ -130,6 +130,13 @@ class Klein
     protected $routes;
 
     /**
+     * Array of the routes that matched
+     *
+     * @type array
+     */
+    protected $matches;
+
+    /**
      * The Route factory object responsible for creating Route instances
      *
      * @type AbstractRouteFactory
@@ -574,6 +581,8 @@ class Klein
                         }
 
                         // Handle our response callback
+                        $this->matches[] = $route;
+
                         try {
                             $this->handleRouteCallback($route, $matched, $methods_matched);
 
@@ -1222,5 +1231,15 @@ class Klein
         );
 
         return $this->respond('PATCH', $path, $callback);
+    }
+
+    /**
+     * Returns the routes that actually matched
+     *
+     * @return array
+     */
+    public function getMatches()
+    {
+        return $this->matches;
     }
 }
